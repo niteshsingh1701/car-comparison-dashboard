@@ -6,24 +6,12 @@ import ComparisonTable from './components/ComparisonTable';
 import Footer from './components/Footer';
 import useCarFilters from './hooks/useCarFilters';
 import { cars } from './data/cars';
-import { updateMetaTags, generateStructuredData, injectStructuredData } from './utils/seo';
 import './styles/global.css';
 
 function App() {
   const [selectedCars, setSelectedCars] = useState([]);
   const [isComparisonExpanded, setIsComparisonExpanded] = useState(false);
   const { filteredCars, uniqueBrands, setFilters } = useCarFilters(cars);
-  
-  // SEO optimization
-  useEffect(() => {
-    updateMetaTags(
-      'Car Comparison Dashboard - Compare Vehicle Specifications and Prices',
-      'Compare different car models side by side. View specifications, prices, and features to make an informed decision.'
-    );
-    
-    const structuredData = generateStructuredData(cars);
-    injectStructuredData(structuredData);
-  }, []);
 
   const handleCompare = (carId) => {
     setSelectedCars(prev => 

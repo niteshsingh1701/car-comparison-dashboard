@@ -10,7 +10,6 @@ A React-based web application that allows users to compare different car models 
 - **Sorting Options**: Sort cars by price (low to high/high to low), rating, or year
 - **Side-by-Side Comparison**: Select up to 3 cars for detailed specification comparison
 - **Responsive Design**: Works on desktop and mobile devices
-- **SEO Optimized**: Includes meta tags and structured data for better search engine visibility
 
 ## Technologies Used
 
@@ -23,7 +22,7 @@ A React-based web application that allows users to compare different car models 
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/car-comparison-dashboard.git
+   git clone https://github.com/niteshsingh1701/car-comparison-dashboard.git
    cd car-comparison-dashboard
    ```
 
@@ -72,8 +71,6 @@ car-comparison-dashboard/
 │   │   └── useCarFilters.js # Filtering logic
 │   ├── styles/           # CSS files
 │   │   └── global.css    # Global styles
-│   ├── utils/            # Utility functions
-│   │   └── seo.js        # SEO optimization
 │   ├── App.jsx           # Main application component
 │   ├── main.jsx          # Entry point
 │   └── index.css         # Base styles
@@ -90,14 +87,6 @@ car-comparison-dashboard/
 - `npm run build` - Build the app for production
 - `npm run lint` - Run ESLint to check code quality
 - `npm run preview` - Preview the production build locally
-
-## SEO Features
-
-This application includes:
-
-- Dynamic meta tags for better search engine indexing
-- Structured data using Schema.org vocabulary
-- Semantic HTML for improved accessibility and SEO
 
 ## Future Enhancements
 
@@ -124,4 +113,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Car images from Unsplash
 - React team for the amazing library
 - Vite team for the fast development experience
-        Too many current requests. Your queue position is 7. Please wait for a while or switch to other models for a smoother experience.
