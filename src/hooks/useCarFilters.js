@@ -8,23 +8,19 @@ function useCarFilters(cars) {
     sortBy: 'price-asc'
   });
 
-  // Extract unique brands for filter options
   const uniqueBrands = [...new Set(cars.map(car => car.brand))];
 
   useEffect(() => {
     let result = [...cars];
     
-    // Filter by price range
     result = result.filter(car => 
       car.price >= filters.priceRange[0] && car.price <= filters.priceRange[1]
     );
     
-    // Filter by brands if any selected
     if (filters.brands.length > 0) {
       result = result.filter(car => filters.brands.includes(car.brand));
     }
     
-    // Sort results
     switch (filters.sortBy) {
       case 'price-asc':
         result.sort((a, b) => a.price - b.price);

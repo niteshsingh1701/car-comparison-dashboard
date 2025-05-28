@@ -113,3 +113,19 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Car images from Unsplash
 - React team for the amazing library
 - Vite team for the fast development experience
+
+## Testing
+
+This project uses Vitest and React Testing Library for component and hook testing.
+
+### Running Tests
+
+- `npm test` - Run all tests once
+- `npm run test:watch` - Run tests in watch mode during development
+
+### Test Files
+
+Test files are located alongside the components and hooks they test:
+
+- `src/components/CarCard.test.jsx` - Tests for the car card component
+- `src/hooks/useCarFilters.test.js` - Tests for the filtering hook
