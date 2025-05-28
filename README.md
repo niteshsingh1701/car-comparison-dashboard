@@ -104,16 +104,6 @@ car-comparison-dashboard/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Car images from Unsplash
-- React team for the amazing library
-- Vite team for the fast development experience
-
 ## Testing
 
 This project uses Vitest and React Testing Library for component and hook testing.
@@ -129,3 +119,13 @@ Test files are located alongside the components and hooks they test:
 
 - `src/components/CarCard.test.jsx` - Tests for the car card component
 - `src/hooks/useCarFilters.test.js` - Tests for the filtering hook
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Car images from Unsplash
+- React team for the amazing library
+- Vite team for the fast development experience
