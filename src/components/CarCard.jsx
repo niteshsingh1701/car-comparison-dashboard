@@ -35,7 +35,7 @@ function CarCard({ car, onCompare, isSelected }) {
             <span className="spec-value">{car.horsepower}</span>
           </div>
           <div className="spec-item">
-            <span className="spec-label">MPG:</span>
+            <span className="spec-label">KML:</span>
             <span className="spec-value">{car.mileage}</span>
           </div>
         </div>
