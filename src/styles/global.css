@@ -638,9 +638,9 @@ select:focus {
 }
 
 .comparison-fab {
-  display: none;
+  /* display: none; */
   position: fixed;
-  bottom: 70px;
+  bottom: 30px;
   right: 10px;
   width: 60px;
   height: 60px;
