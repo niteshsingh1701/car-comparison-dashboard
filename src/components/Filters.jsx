@@ -1,15 +1,17 @@
 import { useState } from 'react';
 
-function Filters({ onFilterChange, brands }) {
+function Filters({ onFilterChange, onReset, brands, fuelTypes, activeFiltersCount }) {
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [selectedBrands, setSelectedBrands] = useState([]);
+  const [selectedFuelType, setSelectedFuelType] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('price-asc');
 
   const handlePriceChange = (e, index) => {
     const newRange = [...priceRange];
     newRange[index] = parseInt(e.target.value);
     setPriceRange(newRange);
-    applyFilters(newRange, selectedBrands, sortBy);
+    applyFilters(newRange, selectedBrands, selectedFuelType, searchQuery, sortBy);
   };
 
   const handleBrandChange = (brand) => {
@@ -18,26 +20,79 @@ function Filters({ onFilterChange, brands }) {
       : [...selectedBrands, brand];
     
     setSelectedBrands(newSelectedBrands);
-    applyFilters(priceRange, newSelectedBrands, sortBy);
+    applyFilters(priceRange, newSelectedBrands, selectedFuelType, searchQuery, sortBy);
+  };
+
+  const handleFuelTypeChange = (e) => {
+    const newFuelType = e.target.value;
+    setSelectedFuelType(newFuelType);
+    applyFilters(priceRange, selectedBrands, newFuelType, searchQuery, sortBy);
+  };
+
+  const handleSearchChange = (e) => {
+    const newSearchQuery = e.target.value;
+    setSearchQuery(newSearchQuery);
+    applyFilters(priceRange, selectedBrands, selectedFuelType, newSearchQuery, sortBy);
   };
 
   const handleSortChange = (e) => {
     const newSortBy = e.target.value;
     setSortBy(newSortBy);
-    applyFilters(priceRange, selectedBrands, newSortBy);
+    applyFilters(priceRange, selectedBrands, selectedFuelType, searchQuery, newSortBy);
   };
 
-  const applyFilters = (price, brands, sort) => {
+  const handleReset = () => {
+    const defaultPrice = [0, 100000];
+    const defaultBrands = [];
+    const defaultFuelType = 'all';
+    const defaultSearchQuery = '';
+    const defaultSort = 'price-asc';
+
+    setPriceRange(defaultPrice);
+    setSelectedBrands(defaultBrands);
+    setSelectedFuelType(defaultFuelType);
+    setSearchQuery(defaultSearchQuery);
+    setSortBy(defaultSort);
+
+    applyFilters(
+      defaultPrice,
+      defaultBrands,
+      defaultFuelType,
+      defaultSearchQuery,
+      defaultSort
+    );
+
+    onReset();
+  };
+
+  const applyFilters = (price, selectedBrandList, fuelType, search, sort) => {
     onFilterChange({
       priceRange: price,
-      brands: brands,
+      brands: selectedBrandList,
+      fuelType,
+      searchQuery: search,
       sortBy: sort
     });
   };
 
   return (
     <div className="filters">
-      <h2>Filters</h2>
+      <div className="filters-heading">
+        <h2>Filters</h2>
+        <span className="active-filters-pill">{activeFiltersCount} active</span>
+      </div>
+
+      <div className="filter-section">
+        <h3>Search</h3>
+        <input
+          type="search"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Model, brand, feature..."
+          className="filter-search"
+          aria-label="Search cars"
+        />
+      </div>
       
       <div className="filter-section">
         <h3>Price Range</h3>
@@ -83,6 +138,18 @@ function Filters({ onFilterChange, brands }) {
           ))}
         </div>
       </div>
+
+      <div className="filter-section">
+        <h3>Fuel Type</h3>
+        <select value={selectedFuelType} onChange={handleFuelTypeChange}>
+          <option value="all">All Fuel Types</option>
+          {fuelTypes.map((fuelType) => (
+            <option key={fuelType} value={fuelType}>
+              {fuelType}
+            </option>
+          ))}
+        </select>
+      </div>
       
       <div className="filter-section">
         <h3>Sort By</h3>
@@ -93,6 +160,10 @@ function Filters({ onFilterChange, brands }) {
           <option value="year-desc">Year: Newest First</option>
         </select>
       </div>
+
+      <button type="button" className="reset-filters-btn" onClick={handleReset}>
+        Reset Filters
+      </button>
     </div>
   );
 }

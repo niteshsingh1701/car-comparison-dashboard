@@ -14,9 +14,14 @@ function ComparisonTable({ cars, selectedCarIds, onRemove }) {
 
   return (
     <div className={`comparison-container ${isExpanded ? 'expanded' : ''}`}>
-      <div className="comparison-header" onClick={toggleExpand}>
+      <div
+        className="comparison-header"
+        onClick={toggleExpand}
+        role="button"
+        aria-expanded={isExpanded}
+      >
         <h2>Car Comparison ({selectedCars.length})</h2>
-        <button className="comparison-toggle">
+        <button className="comparison-toggle" aria-label="Toggle comparison">
           {isExpanded ? '▼' : '▲'}
         </button>
       </div>

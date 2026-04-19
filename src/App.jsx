@@ -1,33 +1,54 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from './components/Header';
 import CarList from './components/CarList';
 import Filters from './components/Filters';
 import ComparisonTable from './components/ComparisonTable';
+import InsightsPanel from './components/InsightsPanel';
 import Footer from './components/Footer';
 import useCarFilters from './hooks/useCarFilters';
 import { cars } from './data/cars';
 import './styles/global.css';
 
+const MAX_COMPARE_COUNT = 3;
+
 function App() {
   const [selectedCars, setSelectedCars] = useState([]);
-  const [isComparisonExpanded, setIsComparisonExpanded] = useState(false);
-  const { filteredCars, uniqueBrands, setFilters } = useCarFilters(cars);
+  const {
+    filteredCars,
+    uniqueBrands,
+    uniqueFuelTypes,
+    filters,
+    setFilters,
+    resetFilters
+  } = useCarFilters(cars);
 
   const handleCompare = (carId) => {
-    setSelectedCars(prev => 
-      prev.includes(carId)
-        ? prev.filter(id => id !== carId)
-        : [...prev, carId]
-    );
+    setSelectedCars(prev => {
+      if (prev.includes(carId)) {
+        return prev.filter(id => id !== carId);
+      }
+
+      if (prev.length >= MAX_COMPARE_COUNT) {
+        return prev;
+      }
+
+      return [...prev, carId];
+    });
   };
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
   };
 
-  const toggleComparisonView = () => {
-    setIsComparisonExpanded(!isComparisonExpanded);
-  };
+  const selectedCount = selectedCars.length;
+  const isCompareLimitReached = selectedCount >= MAX_COMPARE_COUNT;
+  const activeFiltersCount = [
+    filters.brands.length > 0,
+    filters.fuelType !== 'all',
+    filters.searchQuery.trim().length > 0,
+    filters.priceRange[0] !== 0 || filters.priceRange[1] !== 100000,
+    filters.sortBy !== 'price-asc'
+  ].filter(Boolean).length;
 
   return (
     <div className="app">
@@ -45,40 +66,40 @@ function App() {
             <aside className="sidebar">
               <Filters 
                 onFilterChange={handleFilterChange} 
-                brands={uniqueBrands} 
+                onReset={resetFilters}
+                brands={uniqueBrands}
+                fuelTypes={uniqueFuelTypes}
+                activeFiltersCount={activeFiltersCount}
               />
             </aside>
             
             <div className="content">
-              {selectedCars.length > 0 && (
+              <InsightsPanel cars={filteredCars} totalCars={cars.length} />
+
+              {selectedCount > 0 && (
                 <ComparisonTable 
                   cars={cars} 
                   selectedCarIds={selectedCars} 
-                  onRemove={handleCompare} 
-                  isExpanded={isComparisonExpanded}
-                  onToggleExpand={toggleComparisonView}
+                  onRemove={handleCompare}
                 />
               )}
               
               <CarList 
                 cars={filteredCars} 
                 selectedCars={selectedCars} 
-                onCompare={handleCompare} 
+                onCompare={handleCompare}
+                isCompareLimitReached={isCompareLimitReached}
               />
             </div>
           </div>
         </div>
       </main>
       
-      {selectedCars.length > 0 && (
-        <button 
-          className="comparison-fab" 
-          onClick={toggleComparisonView}
-          aria-label="Toggle comparison view"
-        >
-          <span className="comparison-count">{selectedCars.length}</span>
+      {selectedCount > 0 && (
+        <div className="comparison-fab" aria-live="polite">
+          <span className="comparison-count">{selectedCount}</span>
           🔍
-        </button>
+        </div>
       )}
       
       <Footer />

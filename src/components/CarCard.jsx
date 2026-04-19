@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CarCard({ car, onCompare, isSelected }) {
+function CarCard({ car, onCompare, isSelected, isDisabled }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -43,8 +43,13 @@ function CarCard({ car, onCompare, isSelected }) {
         <button
           className={`compare-button ${isSelected ? "selected" : ""}`}
           onClick={() => onCompare(car.id)}
+          disabled={isDisabled}
         >
-          {isSelected ? "Remove from Compare" : "Add to Compare"}
+          {isSelected
+            ? "Remove from Compare"
+            : isDisabled
+              ? "Compare Limit Reached"
+              : "Add to Compare"}
         </button>
       </div>
     </div>
